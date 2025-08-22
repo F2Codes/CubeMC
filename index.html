@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="assets/favicon.jpg" type="image/jpg">
+  <title>CubeMC</title>
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #0b0f1a;
+      color: #f0f4ff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    a { color: #3ba4ff; text-decoration: none; transition: 0.3s; }
+    a:hover { color: #63b9ff; }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(10, 14, 25, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .navbar a { font-weight: 500; padding: 0.5rem; border-radius: 6px; }
+    .navbar a:hover { background: rgba(59,164,255,0.2); }
+
+    .logo { display: flex; align-items: center; font-size: 1.4rem; font-weight: bold; color: #fff; }
+    .logo img { height: 36px; margin-right: 0.6rem; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, #0d1326, #0b0f1a);
+      animation: fadeIn 1s ease;
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+      color: #3ba4ff;
+    }
+    .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+    .btn {
+      background: linear-gradient(90deg, #3ba4ff, #0077ff);
+      padding: 0.9rem 1.8rem;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.3s;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 119, 255, 0.5);
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeUp 1s ease;
+    }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #3ba4ff;
+      text-align: center;
+    }
+    section p { margin-bottom: 1rem; text-align: center; }
+
+    /* Downloads */
+    #releases ul { list-style: none; padding: 0; }
+    #releases li {
+      background: #141a2a;
+      margin: 1rem 0;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      transition: 0.3s;
+    }
+    #releases li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,119,255,0.4);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #0a0e19;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #8ca0c0;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="#" class="logo">
+        <img src="assets/logo.png" alt="CubeMC Logo" />
+        CubeMC
+      </a>
+      <ul>
+        <li><a href="#downloads">Downloads</a></li>
+        <li><a href="#docs">Docs</a></li>
+        <li><a href="#forum">Forum</a></li>
+        <li><a href="https://github.com/F2Codes/CubeMC" target="_blank">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <main class="hero">
+    <h1>CubeMC</h1>
+    <p>Super-fast Minecraft server software, built with love and optimized for performance.</p>
+    <a href="#downloads" class="btn">Download Now</a>
+  </main>
+
+  <!-- Downloads -->
+  <section id="downloads">
+    <h2>Downloads</h2>
+    <p>Get the latest builds of CubeMC.</p>
+    <div id="releases">Loading releases...</div>
+  </section>
+
+  <!-- Docs -->
+  <section id="docs">
+    <h2>Documentation</h2>
+    <p>Everything you need to set up, configure, and scale your CubeMC server.</p>
+  </section>
+
+  <!-- Forum -->
+  <section id="forum">
+    <h2>Community Forum</h2>
+    <p>Connect with other CubeMC users, share plugins, and get help from the community.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 CubeMC. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const releasesDiv = document.getElementById("releases");
+
+    fetch("https://api.github.com/repos/F2Codes/CubeMC/releases")
+      .then((res) => res.json())
+      .then((releases) => {
+        if (!releases || releases.length === 0) {
+          releasesDiv.innerHTML = "<p>No releases yet.</p>";
+          return;
+        }
+
+        const list = document.createElement("ul");
+        releases.forEach((rel) => {
+          const li = document.createElement("li");
+          const asset = rel.assets[0];
+          li.innerHTML = `
+            <strong>${rel.name}</strong> - ${rel.published_at.split("T")[0]}<br/>
+            <a href="${asset.browser_download_url}" class="btn">Download</a>
+          `;
+          list.appendChild(li);
+        });
+        releasesDiv.innerHTML = "";
+        releasesDiv.appendChild(list);
+      })
+      .catch(() => {
+        releasesDiv.innerHTML = "<p>Error loading releases.</p>";
+      });
+  </script>
+</body>
+</html>
